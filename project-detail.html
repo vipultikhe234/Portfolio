@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Insight | Vipul Tikhe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .detail-hero {
+            padding: 12rem 0 6rem;
+            position: relative;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+        }
+
+        .repo-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.6rem 1.4rem;
+            border-radius: 50px;
+            border: 1px solid var(--border-color);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-main);
+            backdrop-filter: blur(5px);
+            transition: var(--transition);
+        }
+
+        .stat-badge i {
+            color: var(--secondary);
+        }
+
+        .stat-badge:hover {
+            border-color: var(--secondary);
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 3rem;
+            margin-bottom: 8rem;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .info-card {
+            padding: 1.8rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 3px solid var(--secondary);
+            padding-left: 12px;
+        }
+
+        .ui-section {
+            background: rgba(16, 18, 38, 0.2);
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            opacity: 0;
+        }
+
+        .ui-section-title {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .ui-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--border-color), transparent);
+        }
+
+        .ui-content {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .ui-content pre {
+            background: #0d1117 !important;
+            padding: 1.5rem !important;
+            border-radius: 12px !important;
+            border: 1px solid var(--border-color) !important;
+            margin: 2rem 0 !important;
+        }
+
+        .ui-content code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        .ui-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .ui-content li {
+            position: relative;
+            padding-left: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .ui-content li::before {
+            content: "\f058";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            left: 0;
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+
+        .mermaid {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-dark);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(6, 182, 212, 0.1);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(40px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .ui-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="loader"></div>
+        <p style="margin-top: 2rem; letter-spacing: 2px;">SYNCHRONIZING DATA</p>
+    </div>
+
+    <div class="bg-shape shape-1"></div>
+    <div class="bg-shape shape-2"></div>
+
+    <nav class="navbar scrolled">
+        <a href="index.html#home" class="logo">VT<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html#projects">Back to Portfolio</a></li>
+        </ul>
+    </nav>
+
+    <header class="detail-hero">
+        <div class="container">
+            <h1 id="repoTitle" class="name"></h1>
+            <p id="repoDescription" class="hero-desc" style="max-width: 800px; margin: 1.5rem auto;"></p>
+
+            <div class="repo-stats">
+                <div class="stat-badge"><i class="fas fa-star"></i> <span id="stars">0</span> Stars</div>
+                <div class="stat-badge"><i class="fas fa-code-branch"></i> <span id="forks">0</span> Forks</div>
+                <div class="stat-badge"><i class="fas fa-history"></i> <span id="updated">Recently</span></div>
+            </div>
+
+            <div style="margin-top: 3.5rem; display: flex; gap: 1.5rem; justify-content: center;">
+                <a id="mainGithubLink" href="#" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-github"></i> View Source
+                </a>
+                <a id="cloneLink" href="#" class="btn btn-outline">
+                    <i class="fas fa-terminal"></i> Clone Repo
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="content-grid">
+            <div id="mainContent" class="main-info">
+                <!-- Sections populated by JS -->
+            </div>
+
+            <aside class="sidebar">
+                <div class="glass-card info-card">
+                    <h3>Metadata</h3>
+                    <div style="display: flex; flex-direction: column; gap: 1.2rem;">
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Main Stack</span>
+                            <span id="stack" class="badge">N/A</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Open Issues</span>
+                            <span id="issues" style="color: var(--text-main);">0</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-muted);">Size</span>
+                            <span id="size" style="color: var(--text-main);">0 KB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card info-card">
+                    <h3>Development</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">
+                        This project is maintained under high-quality standards and backend best practices.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year"></span> Vipul Tikhe. Data rendered dynamically from GitHub API.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: false, theme: 'dark', securityLevel: 'loose' });
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const repo = params.get('repo');
+            document.getElementById('year').textContent = new Date().getFullYear();
+
+            if (!repo) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            try {
+                // 1. Fetch Repository Metadata
+                const res = await fetch(`https://api.github.com/repos/vipultikhe234/${repo}`);
+                if (!res.ok) throw new Error("Repo not found");
+                const data = await res.json();
+
+                // Populate Hero
+                document.getElementById('repoTitle').innerHTML = `<span class="highlight">${data.name.replace(/[-_]/g, ' ')}</span>`;
+                document.getElementById('repoDescription').textContent = data.description || "Integrated backend solution with focus on performance and architectural excellence.";
+                document.getElementById('stars').textContent = data.stargazers_count;
+                document.getElementById('forks').textContent = data.forks_count;
+                document.getElementById('updated').textContent = new Date(data.updated_at).toLocaleDateString();
+                document.getElementById('mainGithubLink').href = data.html_url;
+
+                // Populate Sidebar
+                document.getElementById('stack').textContent = data.language || "Multi";
+                document.getElementById('issues').textContent = data.open_issues_count;
+                document.getElementById('size').textContent = (data.size / 1024).toFixed(1) + " MB";
+
+                document.getElementById('cloneLink').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    navigator.clipboard.writeText(data.clone_url);
+                    const el = e.currentTarget;
+                    const prev = el.innerHTML;
+                    el.innerHTML = '<i class="fas fa-check"></i> Link Copied';
+                    setTimeout(() => el.innerHTML = prev, 2000);
+                });
+
+                // 2. Fetch README
+                const readmeRes = await fetch(`https://api.github.com/repos/vipultikhe234/${repo}/readme`, {
+                    headers: { 'Accept': 'application/vnd.github.v3.raw' }
+                });
+
+                if (readmeRes.ok) {
+                    const markdown = await readmeRes.text();
+                    const mainContent = document.getElementById('mainContent');
+
+                    // Custom Logic: Parse Markdown into nice UI Sections
+                    const sections = markdown.split(/\n(?=#+ )/);
+                    let sectionIdx = 0;
+
+                    for (let section of sections) {
+                        if (!section.trim()) continue;
+
+                        const lines = section.split('\n');
+                        const titleMatch = lines[0].match(/^#+\s+(.*)/);
+                        const title = titleMatch ? titleMatch[1] : "Overview";
+                        const content = titleMatch ? lines.slice(1).join('\n') : section;
+
+                        // Skip the main title h1 if it matches repo name
+                        if (sectionIdx === 0 && title.toLowerCase() === data.name.toLowerCase().replace(/[-_]/g, ' ')) {
+                            sectionIdx++;
+                            // But use its content
+                            if (content.trim().length > 10) {
+                                // show as intro section
+                            } else {
+                                continue;
+                            }
+                        }
+
+                        const sectionEl = document.createElement('div');
+                        sectionEl.className = 'ui-section';
+                        sectionEl.style.animationDelay = (sectionIdx * 0.1) + 's';
+
+                        // Check if content contains mermaid code
+                        let parsedContent = marked.parse(content);
+
+                        // Replace mermaid code blocks with div for rendering
+                        parsedContent = parsedContent.replace(/<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
+                            return `<div class="mermaid">${code.replace(/&lt;/g, '<').replace(/&gt;/g, '>')}</div>`;
+                        });
+
+                        sectionEl.innerHTML = `
+                            <h2 class="ui-section-title">${title}</h2>
+                            <div class="ui-content">${parsedContent}</div>
+                        `;
+
+                        mainContent.appendChild(sectionEl);
+                        sectionIdx++;
+                    }
+
+                    // Render diagrams
+                    await mermaid.run();
+
+                } else {
+                    document.getElementById('mainContent').innerHTML = `
+                        <div class="ui-section">
+                            <h2 class="ui-section-title">Documentation Status</h2>
+                            <p>No README file found for this repository. Please explore the source code via the GitHub link above.</p>
+                        </div>
+                    `;
+                }
+
+                // Fade out overlay
+                const overlay = document.getElementById('loadingOverlay');
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.style.display = 'none', 500);
+
+            } catch (err) {
+                console.error(err);
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
+</body>
+
+</html>
