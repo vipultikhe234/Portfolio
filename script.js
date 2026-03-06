@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (repo.name.toLowerCase() === 'vipultikhe234' ||
                         repo.name.toLowerCase() === 'paathner_backend' ||
                         repo.name.toLowerCase() === 'portfolio' ||
-                        repo.name.toLowerCase() === 'potfolio') return;
+                        repo.name.toLowerCase() === 'potfolio' || repo.name.toLowerCase() === 'navigation_project') return;
 
                     const card = document.createElement('div');
                     card.className = 'project-card glass-card opacity-0 slide-up';
