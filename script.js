@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 repos.forEach((repo, index) => {
                     // Skip profile repo, the portfolio repo itself, AND the static featured project (Paathner)
                     if (repo.name.toLowerCase() === 'vipultikhe234' ||
-                        repo.name.toLowerCase() === 'navigation_project' ||
+                        repo.name.toLowerCase() === 'paathner_backend' ||
                         repo.name.toLowerCase() === 'portfolio' ||
                         repo.name.toLowerCase() === 'potfolio') return;
 
@@ -136,8 +136,28 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <p class="project-desc">${repo.description || "High-performance backend solution focusing on scalability and clean architecture."}</p>
                             <div class="project-tags">
-                                <span>${repo.language || 'Backend'}</span>
-                                ${repo.topics ? repo.topics.map(t => `<span>${t}</span>`).join('') : ''}
+                                ${(() => {
+                            const topics = repo.topics ? repo.topics.map(t => t.toLowerCase()) : [];
+                            const lang = repo.language ? repo.language.toLowerCase() : '';
+                            const desc = repo.description ? repo.description.toLowerCase() : '';
+                            const name = repo.name.toLowerCase();
+
+                            // PHP / Laravel Detection (Including 'Blade' triggers)
+                            if (lang === 'php' || lang === 'blade' || topics.includes('php') || topics.includes('laravel') ||
+                                desc.includes('laravel') || desc.includes(' php ') || name.includes('laravel')) {
+                                return '<span class="tag-primary">PHP</span> <span class="tag-primary">Laravel</span>';
+                            }
+
+                            // Java / Spring Boot Detection
+                            if (lang === 'java' || topics.includes('java') || topics.includes('spring-boot') ||
+                                topics.includes('springboot') || desc.includes('spring boot') || desc.includes('springboot') ||
+                                desc.includes('java') || name.includes('spring-boot')) {
+                                return '<span class="tag-primary">Java</span> <span class="tag-primary">Spring Boot</span>';
+                            }
+
+                            const displayLang = repo.language && !['javascript', 'css', 'html'].includes(lang) ? repo.language : 'Backend';
+                            return `<span class="tag-primary">${displayLang}</span>`;
+                        })()}
                             </div>
                             <div class="project-actions">
                                 <a href="project-detail.html?repo=${repo.name}" class="btn btn-primary">Details</a>
