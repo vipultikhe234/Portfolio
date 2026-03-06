@@ -118,11 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // We NO LONGER clear innerHTML here to preserve the static Paathner card
 
                 repos.forEach((repo, index) => {
-                    // Skip profile repo, the portfolio repo itself, AND the static featured project (Paathner)
-                    if (repo.name.toLowerCase() === 'vipultikhe234' ||
-                        repo.name.toLowerCase() === 'paathner_backend' ||
-                        repo.name.toLowerCase() === 'portfolio' ||
-                        repo.name.toLowerCase() === 'potfolio' || repo.name.toLowerCase() === 'navigation_project') return;
+                    const excludedRepos = ['vipultikhe234', 'paathner_backend', 'portfolio', 'potfolio', 'navigation_project'];
+                    if (excludedRepos.includes(repo.name.toLowerCase())) return;
 
                     const card = document.createElement('div');
                     card.className = 'project-card glass-card opacity-0 slide-up';
