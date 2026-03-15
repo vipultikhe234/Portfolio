@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // We NO LONGER clear innerHTML here to preserve the static Paathner card
 
                 repos.forEach((repo, index) => {
-                    const excludedRepos = ['vipultikhe234', 'paathner_backend', 'portfolio', 'potfolio', 'navigation_project'];
+                    const excludedRepos = ['vipultikhe234', 'paathner_backend', 'portfolio', 'potfolio', 'navigation_project', 'FoodHub-Backend', 'FoodHub-Frontend'];
                     if (excludedRepos.includes(repo.name.toLowerCase())) return;
 
                     const card = document.createElement('div');
