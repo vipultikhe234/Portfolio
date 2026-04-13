@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 // We NO LONGER clear innerHTML here to preserve the static Paathner card
 
                 repos.forEach((repo, index) => {
-                    const excludedRepos = ['vipultikhe234', 'paathner_backend', 'portfolio', 'potfolio', 'navigation_project', 'FoodHub-Backend', 'foodhub-backend', 'FoodHub-Frontend', 'foodhub-frontend'];
-                    if (excludedRepos.includes(repo.name.toLowerCase())) return;
+                    const excludedRepos = ['vipultikhe234', 'paathner_backend', 'portfolio', 'potfolio', 'navigation_project', 'FoodHub-Backend', 'foodhub-backend', 'FoodHub-Frontend', 'foodhub-frontend', 'ApnaCart-Mobile', 'apnacart-mobile'];
+                    if (excludedRepos.includes(repo.name.toLowerCase()) || excludedRepos.includes(repo.name)) return;
 
                     const card = document.createElement('div');
                     card.className = 'project-card glass-card opacity-0 slide-up';
